@@ -14,6 +14,7 @@ class TImages {
 
   // button images
   static const String btnImg1 = "assets/button_images/btnImg1.png";
+  static const String acuaGuard = "assets/button_images/aqua_guard.webp";
 
   // farmers images
   static const String farmer1 = "assets/farmers/farmer1.jpeg";

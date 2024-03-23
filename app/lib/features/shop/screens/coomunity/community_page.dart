@@ -18,6 +18,7 @@ class CommunityPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 243, 240, 240),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 80,
           backgroundColor: TColors.appPrimaryColor,
           title: PreferredSize(

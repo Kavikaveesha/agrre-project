@@ -1,4 +1,5 @@
 import 'package:app/features/shop/screens/services/aqua_guard/aqua_guard_page.dart';
+import 'package:app/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,15 +13,14 @@ List<Map<String, String>> serviceCards = [
   {'title': 'Growing Crops', 'imageName': TImages.btnImg1},
   {'title': 'Green Scape', 'imageName': TImages.btnImg1},
   {'title': 'Aqua Guard', 'imageName': TImages.btnImg1},
-  {'title': 'Eco Quead', 'imageName': TImages.btnImg1},
-  {'title': 'Co2', 'imageName': TImages.btnImg1},
+  {'title': 'Co2 Indicator', 'imageName': TImages.btnImg1},
 ];
 // this is service card  navigate pages list
 List<Widget> pageWidgets = [
   const DisplayAllGrowingCrops(),
   const GreenScape(),
   const AquaGuard(),
-  const AquaGuard(),
+  const Co2Page(),
 ];
 
 class ServiceButtonsSet extends StatelessWidget {

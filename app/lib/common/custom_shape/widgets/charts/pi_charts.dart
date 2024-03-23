@@ -1,3 +1,4 @@
+import 'package:app/utils/constants/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -134,8 +135,9 @@ class DataItem {
 
 // Usage
 List<DataItem> dataList = [
-  DataItem(name: 'Category 1', value: 30, color: Colors.blue),
-  DataItem(name: 'Category 2', value: 20, color: Colors.green),
-  DataItem(name: 'Category 3', value: 10, color: Colors.yellow),
-  DataItem(name: 'Category 4', value: 40, color: Colors.red),
+  DataItem(name: 'Category 1', value: 60, color: TColors.appPrimaryColor),
+  DataItem(name: 'Category 2', value: 40, color: Colors.white),
+//   DataItem(name: 'Category 3', value: 10, color: Colors.yellow),
+//   DataItem(name: 'Category 4', value: 40, color: Colors.red),
+// ];
 ];

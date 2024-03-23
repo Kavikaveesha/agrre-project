@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:app/common/custom_shape/widgets/cards/profile_details_card/profile_details_card.dart';
 import 'package:app/features/authentication/logIn_screen/login_main.dart';
+import 'package:app/features/user_profile/card_details/card_details.dart';
 import 'package:app/utils/constants/colors.dart';
 import 'package:app/utils/constants/mediaQuery.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     String name = 'kavindu';
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: TColors.appPrimaryColor,
         title: Text(
           '$name\'s Profile',
@@ -101,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileDetailsCard(
                   text: EcoTexts.pfmBtn3,
                   onTap: () {
-                    Get.to(() => const ChangePasswordMain());
+                    Get.to(() => const CardDetails());
                   },
                   icon: Icons.credit_card,
                 ),
