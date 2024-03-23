@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import 'admin/admin_page.dart';
+
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
 
@@ -31,6 +33,8 @@ class NavigationMenu extends StatelessWidget {
                 icon: Icon(Iconsax.notification), label: 'Notification'),
             NavigationDestination(
                 icon: Icon(Icons.person_2_outlined), label: 'Profile'),
+            NavigationDestination(
+                icon: Icon(Icons.admin_panel_settings), label: 'Admin'),
           ],
         ),
       ),
@@ -46,6 +50,7 @@ class NavigationController extends GetxController {
     const HomePage(),
     const CommunityPage(),
     const NotificationPage(),
-    const ProfilePage()
+    const ProfilePage(),
+    const AdminPage()
   ];
 }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../../../common/custom_shape/containers/gree_color_container.dart';
 import '../../../../common/custom_shape/containers/search_container.dart';
 import '../../../../common/custom_shape/widgets/appbar/app_bar.dart';
-import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/mediaQuery.dart';
 import 'products/new_products/new_products_slider.dart';
 import 'products/top_products/top_products_row.dart';
@@ -24,14 +23,20 @@ class MarketPage extends StatelessWidget {
           children: [
             // Custom App Bar
             CustomAppBar(
-                iconBack: Icons.arrow_back_ios,
-                onTapBack: () {
+              backarrow: IconButton(
+                onPressed: () {
                   Get.back();
                 },
-                appbarTitle: 'Welcome to ECO Net Market',
-                appbarSubtitle: 'Lets buy some fresh and organic foods',
-                profileImage: TImages.farmer1,
-                onTapProfile: () {}),
+                icon: Icon(Icons.arrow_back_ios),
+                color: Colors.white,
+              ),
+              onTapBack: () {
+                Get.back();
+              },
+              isShowcart: true,
+              appbarTitle: 'Welcome to ECO Net Market',
+              appbarSubtitle: 'Lets buy some fresh and organic foods',
+            ),
 
             GreenContainer(
                 height: mediaQueryheight * .4,

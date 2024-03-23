@@ -15,11 +15,11 @@ class NotificationPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CustomAppBar(
-                appbarTitle: 'Alert With Your Notifications',
-                appbarSubtitle: '',
-                profileImage: TImages.farmer2,
-                onTapProfile: () {}),
+            const CustomAppBar(
+              isShowcart: false,
+              appbarTitle: 'Alert With Your Notifications',
+              appbarSubtitle: '',
+            ),
             SizedBox(
               width: mediaQueryWidth,
               height: mediaQueryHeight * .8,

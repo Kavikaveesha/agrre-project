@@ -1,10 +1,17 @@
+import 'package:app/main_page.dart';
+import 'package:app/admin/ad_products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'features/authentication/splash_screen/splash.dart';
+import 'features/authentication/screens/splash_screen/splash.dart';
+import 'firebase_options.dart';
 import 'utils/theme/theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const App());
 }
 
@@ -19,7 +26,7 @@ class App extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: TAppTheme.lightTheme,
         darkTheme: TAppTheme.darkTheme,
-        home: const SplashScreen(),
+        home: const MainPage(),
       ),
     );
   }

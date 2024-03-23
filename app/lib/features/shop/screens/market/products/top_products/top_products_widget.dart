@@ -34,7 +34,7 @@ class TopProductHorisontalRowWidget extends StatelessWidget {
                       productName: 'Product Name index $index',
                       productImage: TImages.p3,
                       onTap: () {
-                        Get.to(() => ProductDetailPage(productIndex: index));
+                        Get.to(() => ProductDetailPage(productIndex: '$index'));
                       }));
             }));
   }

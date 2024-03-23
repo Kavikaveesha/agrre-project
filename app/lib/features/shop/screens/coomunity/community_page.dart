@@ -1,18 +1,13 @@
 import 'package:app/features/shop/screens/coomunity/Quections_flow/quection_flow.dart';
 import 'package:app/features/shop/screens/coomunity/education/education_flow.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../../utils/constants/colors.dart';
-import 'package:app/features/shop/screens/test.dart';
 
 class CommunityPage extends StatelessWidget {
   const CommunityPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen height
-    final mediaQuery = MediaQuery.of(context).size.height;
-
     return DefaultTabController(
       length: 2, // Number of tabs (Common and Education)
       child: Scaffold(
@@ -45,27 +40,6 @@ class CommunityPage extends StatelessWidget {
               ],
             ),
           ),
-          actions: [
-            // Profile icon to navigate to the profile page
-            InkWell(
-              onTap: () {
-                // Navigate to the profile page when the profile button is clicked
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    Get.to(() => const Test());
-                  },
-                  child: const CircleAvatar(
-                    radius: 16,
-                    backgroundImage:
-                        AssetImage(""), // Replace with your image asset
-                  ),
-                ),
-              ),
-            ),
-          ],
           bottom: const TabBar(
             labelColor: Colors.white,
             tabs: [

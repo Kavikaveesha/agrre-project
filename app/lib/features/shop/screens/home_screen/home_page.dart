@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,11 +27,10 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             // this is appbar
-            CustomAppBar(
-              appbarTitle: 'Welcome Kavindu',
+            const CustomAppBar(
+              appbarTitle: 'Welcome to EcoNet',
               appbarSubtitle: 'Let\'s build an agricultural country',
-              profileImage: TImages.farmer1,
-              onTapProfile: () {},
+              isShowcart: true,
             ),
 
             // Green color container start

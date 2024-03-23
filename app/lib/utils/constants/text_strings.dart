@@ -117,7 +117,7 @@ class EcoTexts {
   static const String notifiHeader = "Notification";
 
   // Profile Form Main
-  static const String pfmBtn1 = "Update your profile Details";
+  static const String pfmBtn1 = "your profile Details";
   static const String pfmBtn2 = "Change Password";
   static const String pfmBtn3 = "Card Details";
   static const String pfmBtn4 = "About Us";

@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:app/common/custom_shape/containers/circular_design_container.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../common/custom_shape/widgets/text_inputs/text_input_field.dart';
 import '../../../utils/constants/mediaQuery.dart';

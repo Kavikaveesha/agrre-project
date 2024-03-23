@@ -1,6 +1,6 @@
 import 'package:app/features/shop/screens/market/products/all_products_grid/product_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 
 class AllProductsGrid extends StatelessWidget {
   const AllProductsGrid({super.key});
@@ -47,24 +47,46 @@ class AllProductsGrid extends StatelessWidget {
           SizedBox(
             height: mediaQueryHeight * 0.02,
           ),
-          SizedBox(
-            width: mediaQueryWidth,
-            height: mediaQueryHeight * 0.7, // Adjust the height
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 0,
-                mainAxisExtent: 300,
-              ),
-              itemCount: 30,
-              itemBuilder: (BuildContext context, int index) {
-                return ProductCard(
-                    productName: ' Product Name of $index',
-                    category: 'category',
-                    index: index);
-              },
-            ),
+          StreamBuilder<QuerySnapshot>(
+            stream:
+                FirebaseFirestore.instance.collection('products').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              final products = snapshot.data!.docs;
+              return SizedBox(
+                width: mediaQueryWidth,
+                height: mediaQueryHeight, // Adjust the height
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 0,
+                    mainAxisExtent: 300,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final product = products[index];
+                    return ProductCard(
+                      productName: product['name'],
+                      category: product['category'],
+                      price: product['price'],
+                      imageUrl: product['image_url'],
+                      index: product.id,
+                      // Add other necessary parameters for ProductCard
+                    );
+                  },
+                ),
+              );
+            },
           )
         ],
       ),

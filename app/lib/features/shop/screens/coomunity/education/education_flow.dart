@@ -1,9 +1,9 @@
 import 'package:app/utils/constants/mediaQuery.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../common/custom_shape/containers/search_container.dart';
 import '../../../../../utils/constants/colors.dart';
-import '../../../../../utils/constants/image_strings.dart';
 import '../../test.dart';
 import 'artical_card.dart';
 
@@ -71,19 +71,41 @@ class EducationFlow extends StatelessWidget {
                           )
                         ],
                       )),
+
+                // Get all articales  from firebase('articals')
                   SizedBox(
-                      height:
-                          mediaQueryheight * 1.5, // Set the height as needed
-                      child: ListView.builder(
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return const ArticalCard(
-                              articleTitle: 'Healthy Growing Foods',
-                              articleCategory: 'Foods',
-                              articleImage: TImages.farmer1,
-                              articleText:
-                                  'Add any URL schemes passed to canLaunchUrl as <queries> entries in your AndroidManifest.xml, otherwise it will return false in most cases starting on Android 11 (API 30) or higher. Checking for supportsLaunchMode(LaunchMode.inAppBrowserView) also requires a <queries> entry to return anything but false. A <queries> element must be added to your manifest as a child of the root element',
-                              url: 'https://flutter.dev',
+                      width: mediaQueryWidth,
+                      height: mediaQueryheight * .8, // Set the height as needed
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('articals')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}'),
+                              );
+                            }
+                            final articals = snapshot.data!.docs;
+
+                            return Expanded(
+                              child: ListView.builder(
+                                  itemCount: articals.length,
+                                  itemBuilder: (context, index) {
+                                    final artical = articals[index];
+                                    return ArticalCard(
+                                        articleTitle: artical['title'],
+                                        articleCategory: artical['category'],
+                                        articleImage: artical['image_url'],
+                                        articleText: artical['description'],
+                                        url: artical['link']);
+                                  }),
                             );
                           }))
                 ],

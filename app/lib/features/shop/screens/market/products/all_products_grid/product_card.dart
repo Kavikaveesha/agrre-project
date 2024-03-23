@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../utils/constants/image_strings.dart';
 import '../product_detail_page/product_detail_page.dart';
 
 class ProductCard extends StatelessWidget {
@@ -9,10 +8,14 @@ class ProductCard extends StatelessWidget {
       {super.key,
       required this.productName,
       required this.category,
-      required this.index});
+      required this.price,
+      required this.imageUrl, required this.index,
+      });
   final String productName;
   final String category;
-  final int index;
+  final String index;
+  final double price;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +50,11 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Image(
-                  image: AssetImage(TImages.p1),
+                Image.network(
+                  imageUrl,
+                  width: 100,
                   height: 100,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +74,7 @@ class ProductCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                    'RS 2400',
+                    'Rs${price}',
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),

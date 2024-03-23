@@ -22,4 +22,6 @@ class TImages {
 
   // Artical images
   static const String artImg1 = "assets/artical_images/artImg1";
+  // user
+  static const String userImg = "assets/user/user.png";
 }

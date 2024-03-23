@@ -1,8 +1,8 @@
 import 'package:app/common/custom_shape/containers/circular_design_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../utils/constants/image_strings.dart';
-import '../../../utils/constants/text_strings.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/text_strings.dart';
 import '../logIn_screen/login_main.dart';
 
 class SplashScreen extends StatelessWidget {

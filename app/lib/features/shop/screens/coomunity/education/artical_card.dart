@@ -78,8 +78,8 @@ class _ArticalCardState extends State<ArticalCard> {
                     ],
                   ),
                   SizedBox(height: mediaQueryheight * 0.005),
-                  Image(
-                    image: AssetImage(widget.articleImage),
+                  Image.network(
+                    widget.articleImage,
                     width: mediaQueryheight,
                     height: mediaQueryheight * .25,
                     fit: BoxFit.fill,

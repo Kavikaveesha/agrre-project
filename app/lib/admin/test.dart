@@ -1,11 +1,11 @@
 import 'package:app/features/shop/screens/services/green_scope/green_scope_page.dart';
 import 'package:flutter/material.dart';
-import 'common/custom_shape/widgets/charts/pi_charts.dart';
+import '../common/custom_shape/widgets/charts/pi_charts.dart';
 import 'package:app/utils/constants/mediaQuery.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'common/custom_shape/containers/circular_design_container.dart';
-import 'common/custom_shape/widgets/dropdowns/dropdown1.dart';
-import 'utils/constants/colors.dart';
+import '../common/custom_shape/containers/circular_design_container.dart';
+import '../common/custom_shape/widgets/dropdowns/dropdown1.dart';
+import '../utils/constants/colors.dart';
 
 class Co2Page extends StatefulWidget {
   const Co2Page({Key? key}) : super(key: key);

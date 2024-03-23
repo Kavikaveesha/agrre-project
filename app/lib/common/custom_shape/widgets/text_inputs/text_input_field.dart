@@ -30,7 +30,6 @@ class EcoInputField extends StatelessWidget {
         maxLines: maxLines,
         maxLength: maxLength,
         keyboardType: keyboardtype, // Set keyboard type to number
-
         validator: validator,
         controller: controller,
         decoration: InputDecoration(

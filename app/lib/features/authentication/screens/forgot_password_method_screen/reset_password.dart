@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/constants/image_strings.dart';
-import '../../../common/custom_shape/containers/circular_design_container.dart';
-import '../../../common/custom_shape/widgets/text_inputs/text_input_field.dart';
-import '../../../utils/constants/mediaQuery.dart';
-import '../../../utils/constants/text_strings.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../common/custom_shape/containers/circular_design_container.dart';
+import '../../../../common/custom_shape/widgets/text_inputs/text_input_field.dart';
+import '../../../../utils/constants/mediaQuery.dart';
+import '../../../../utils/constants/text_strings.dart';
 import '../logIn_screen/login_main.dart';
 
 class ResetPasswordForm extends StatelessWidget {

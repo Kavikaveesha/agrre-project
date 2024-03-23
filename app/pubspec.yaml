@@ -42,6 +42,10 @@ dependencies:
   carousel_slider: ^4.2.1
   flutter_native_splash: ^2.3.9
   smooth_page_indicator: ^1.1.0
+  cloud_firestore: ^4.15.9
+  firebase_core: ^2.27.1
+  firebase_auth: ^4.17.9
+  
 
   #Icons
   iconsax: ^0.0.8
@@ -55,6 +59,9 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   fl_chart: ^0.66.2
   image_picker: ^1.0.7
+  firebase_storage: ^11.6.10
+  expandable_text: ^2.3.0
+  shared_preferences: ^2.2.2
 
   #Product Specific
 
@@ -88,6 +95,7 @@ flutter:
     - assets/artical_images/
     - assets/verify_image/
     - assets/logo/
+    - assets/user/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

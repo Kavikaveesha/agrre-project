@@ -3,8 +3,8 @@ import 'package:app/utils/constants/mediaQuery.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/constants/image_strings.dart';
-import '../../../utils/constants/text_strings.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/text_strings.dart';
 import 'method_email_screen/method_email_getcode.dart';
 import 'method_phone_screen/method_phone_getcode.dart';
 

@@ -1,12 +1,12 @@
 import 'package:app/common/custom_shape/containers/circular_design_container.dart';
 import 'package:app/common/custom_shape/widgets/text_inputs/text_input_field.dart';
-import 'package:app/features/authentication/forgot_password_method_screen/method_email_screen/verify_getcode_email.dart';
-import 'package:app/features/authentication/forgot_password_method_screen/method_phone_screen/verify_getcode_phone.dart';
+import 'package:app/features/authentication/screens/forgot_password_method_screen/method_email_screen/verify_getcode_email.dart';
+import 'package:app/features/authentication/screens/forgot_password_method_screen/method_phone_screen/verify_getcode_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../utils/constants/image_strings.dart';
-import '../../../../utils/constants/mediaQuery.dart';
-import '../../../../utils/constants/text_strings.dart';
+import '../../../../../../utils/constants/image_strings.dart';
+import '../../../../../utils/constants/mediaQuery.dart';
+import '../../../../../utils/constants/text_strings.dart';
 
 class MethodPhone extends StatelessWidget {
   const MethodPhone({super.key});

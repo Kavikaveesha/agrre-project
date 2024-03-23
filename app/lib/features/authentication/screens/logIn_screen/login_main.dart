@@ -1,15 +1,31 @@
 import 'package:app/common/custom_shape/containers/circular_design_container.dart';
 import 'package:app/common/custom_shape/widgets/text_inputs/text_input_field.dart';
-import 'package:app/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../utils/constants/image_strings.dart';
-import '../../../utils/constants/text_strings.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/text_strings.dart';
+import '../../controller/sign_in_controller.dart';
 import '../forgot_password_method_screen/forgot_password_method.dart';
 import '../register_screen/sign_up_main.dart';
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget {
   const LogIn({super.key});
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+  final SignInController _signInController = Get.put(SignInController());
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +34,7 @@ class LogIn extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
           child: CircularDesignContainer(
-        backText: 'Back',
+        backText: '',
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -40,11 +56,15 @@ class LogIn extends StatelessWidget {
 
               // Start login form
               SizedBox(height: mediaQueryHeight * .005),
-              const EcoInputField(
-                  icon: Icons.email, labelText: 'Enter your email'),
+              EcoInputField(
+                  controller: _emailController,
+                  icon: Icons.email,
+                  labelText: 'Enter your email'),
               SizedBox(height: mediaQueryHeight * .015),
-              const EcoInputField(
-                  icon: Icons.lock, labelText: 'Enter your password'),
+              EcoInputField(
+                  controller: _passwordController,
+                  icon: Icons.lock,
+                  labelText: 'Enter your password'),
               SizedBox(height: mediaQueryHeight * .01),
 
               // This is button to go forget password page
@@ -71,7 +91,8 @@ class LogIn extends StatelessWidget {
                 width: mediaQueryWidth * .9,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => const NavigationMenu());
+                    _signInController.signIn(
+                        _emailController.text, _passwordController.text);
                   },
                   child: Text(
                     EcoTexts.welbackSignIn,
