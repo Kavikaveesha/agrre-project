@@ -46,99 +46,103 @@ class MyCart extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: StreamBuilder<DocumentSnapshot>(
-                // Listen to changes in the cart document corresponding to the current user's email
                 stream: FirebaseFirestore.instance
                     .collection('carts')
                     .doc(currentUser.email)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // Check the current connection state
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    // If connection state is waiting, show a loading indicator
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  // Check if any error occurred
-                  if (snapshot.hasError) {
-                    // If error occurred, display the error message
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  }
-                  // Check if data is available and not null
-                  if (!snapshot.hasData || snapshot.data == null) {
-                    // If no data or data is null, show a message indicating no items in the cart
-                    return const Text('No items in the cart');
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Text('No items in the cart');
                   }
 
-                  // Extract cart data from the snapshot
                   final cartData = snapshot.data!;
-                  // Check if the cart document exists
                   if (!cartData.exists) {
-                    // If cart document doesn't exist, show a message indicating no items in the cart
-                    return const Text('No items in the cart');
+                    return Text('No items in the cart');
                   }
 
-                  // Extract cart items from the cart data
                   final cartItems = (cartData['cartItems'] as List<dynamic>)
                       .cast<Map<String, dynamic>>();
 
-                  // Check if cart items list is empty
                   if (cartItems.isEmpty) {
-                    // If cart items list is empty, show a message indicating no items in the cart
-                    return const Center(
-                      child: Text('No items in the cart'),
-                    );
+                    return Text('No items in the cart');
                   }
 
-                  // Build a column to display each cart item
-                  return Column(
-                    children: cartItems.map<Widget>((item) {
-                      // Fetch the product details from the "OnlineStores" collection based on the product ID
-                      return FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance
-                            .collection('Items')
-                            .doc(item['productId'])
-                            .get(),
-                        builder: (context, productSnapshot) {
-                          // Check the connection state of the future
-                          if (productSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            // If connection state is waiting, show a loading indicator
-                            return CircularProgressIndicator();
-                          }
-                          // Check if any error occurred while fetching product details
-                          if (productSnapshot.hasError) {
-                            // If error occurred, display the error message
-                            return Text('Error: ${productSnapshot.error}');
-                          }
-                          // Check if product data is available and not null
-                          if (!productSnapshot.hasData ||
-                              productSnapshot.data == null) {
-                            // If no product data or data is null, return an empty SizedBox
-                            return SizedBox();
-                          }
+                  return FutureBuilder<QuerySnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('OnlineStores')
+                        .get(),
+                    builder: (context, storeSnapshot) {
+                      if (storeSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (storeSnapshot.hasError) {
+                        return Text('Error: ${storeSnapshot.error}');
+                      }
 
-                          // Extract product data from the snapshot
-                          final productData = productSnapshot.data!;
-                          // Extract product details
-                          final productName = productData['Name'];
-                          final productImage = productData['ImageLink'];
-                          final productPrice =
-                              double.parse(productData['Price']);
+                      final stores = storeSnapshot.data!.docs;
+                      List<Widget> productList = [];
 
-                          // Build and return a CartItemWidget with the product details
-                          return CartItemWidget(
-                            productName: productName,
-                            image: productImage,
-                            price: productPrice,
-                            quantity: item[
-                                'quantity'], // Adjust according to your data structure
-                            productId: item['productId'],
-                            email: currentUser.email!,
+                      cartItems.forEach((item) {
+                        stores.forEach((store) {
+                          var itemsCollection = FirebaseFirestore.instance
+                              .collection('OnlineStores')
+                              .doc(store.id)
+                              .collection('items');
+                          productList.add(
+                            FutureBuilder<DocumentSnapshot>(
+                              future:
+                                  itemsCollection.doc(item['productId']).get(),
+                              builder: (context, productSnapshot) {
+                                if (productSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (productSnapshot.hasError) {
+                                  return Text(
+                                      'Error: ${productSnapshot.error}');
+                                }
+                                final productData = productSnapshot.data!;
+                                print(
+                                    'Product data: $productData'); // Print product data
+                                if (!productData.exists) {
+                                  return SizedBox(
+                                    child: Text('no datas'),
+                                  ); // Return an empty SizedBox
+                                }
+
+                                final productName = productData['Name'];
+                                final productImage = productData['ImageLink'];
+                                final productPrice =
+                                    double.parse(productData['Price']);
+
+                                return CartItemWidget(
+                                  productName: productName,
+                                  image: productImage,
+                                  price: productPrice,
+                                  quantity: item['quantity'],
+                                  productId: item['productId'],
+                                  email: currentUser.email!,
+                                );
+                              },
+                            ),
                           );
-                        },
+                        });
+                      });
+
+                      // Remove null or empty widgets
+                      productList.removeWhere((widget) => widget is SizedBox);
+
+                      return SizedBox(
+                        width: MediaQueryUtils.getWidth(context),
+                        height: MediaQueryUtils.getHeight(context),
+                        child: ListView(
+                          children: productList,
+                        ),
                       );
-                    }).toList(), // Convert the list of widgets to a list
+                    },
                   );
                 },
               ),
@@ -149,7 +153,6 @@ class MyCart extends StatelessWidget {
     );
   }
 }
-
 
 class CartItemWidget extends StatelessWidget {
   final String productName;
