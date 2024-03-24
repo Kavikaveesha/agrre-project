@@ -1,4 +1,3 @@
-import 'package:app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailExpandedTextWidget extends StatefulWidget {

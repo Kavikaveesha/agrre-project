@@ -1,30 +1,24 @@
 import 'package:app/features/shop/screens/coomunity/education/expanded_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../utils/constants/mediaQuery.dart';
 
-class ArticalCard extends StatefulWidget {
-  const ArticalCard(
-      {Key? key,
-      required this.articleTitle,
-      required this.articleCategory,
-      required this.articleImage,
-      required this.articleText,
-      required this.url})
-      : super(key: key);
+// ArticalCard Widget
+class ArticleCard extends StatelessWidget {
+  const ArticleCard({
+    Key? key,
+    required this.articleTitle,
+    required this.articleText,
+    required this.tags,
+    required this.date,
+  }) : super(key: key);
+
   final String articleTitle;
-  final String articleCategory;
-  final String articleImage;
   final String articleText;
-  final String url;
-
-  @override
-  _ArticalCardState createState() => _ArticalCardState();
-}
-
-class _ArticalCardState extends State<ArticalCard> {
-  bool showComments = false;
-  bool showFullDescription = false;
+  final String tags;
+  final Timestamp date;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +31,8 @@ class _ArticalCardState extends State<ArticalCard> {
     } else {
       backgroundColor = Colors.black54; // Dark mode background color
     }
+    DateTime dateTime = date.toDate();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -55,44 +51,33 @@ class _ArticalCardState extends State<ArticalCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Post Section
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.articleTitle,
+                    articleTitle,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                  SizedBox(
-                    height: mediaQueryheight * .005,
+                  SizedBox(height: mediaQueryheight * .005),
+                  Text(
+                    DateFormat.yMMMd()
+                        .format(dateTime), // Use converted DateTime
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Row(
-                    children: [
-                      Text('Category:',
-                          style: Theme.of(context).textTheme.bodySmall),
-                      const SizedBox(width: 4),
-                      Text(widget.articleCategory,
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    ],
-                  ),
+                  SizedBox(height: mediaQueryheight * .005),
+                  Text(tags,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.green[200])),
                   SizedBox(height: mediaQueryheight * 0.005),
-                  Image.network(
-                    widget.articleImage,
-                    width: mediaQueryheight,
-                    height: mediaQueryheight * .25,
-                    fit: BoxFit.fill,
-                  ),
-                  const SizedBox(height: 8),
                   ExpandedTextWidget(
-                    text: widget.articleText,
+                    text: articleText,
                     textLength: 100,
-                    url: widget.url,
                   ),
-                  SizedBox(
-                    height: mediaQueryheight * .01,
-                  ),
+                  SizedBox(height: mediaQueryheight * .01),
                 ],
               ),
             ),

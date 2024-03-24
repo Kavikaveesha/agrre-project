@@ -44,37 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCRrXPTh1xTSAYaSYDf58K9ohhNpWp2kV8',
-    appId: '1:722129889560:web:7df94bc4cf602a818cd66d',
-    messagingSenderId: '722129889560',
-    projectId: 'agree-project-92c04',
-    authDomain: 'agree-project-92c04.firebaseapp.com',
-    storageBucket: 'agree-project-92c04.appspot.com',
+    apiKey: 'AIzaSyAzgNDZw2BM6zDWFXgQheKAXYbyIWGE2C8',
+    appId: '1:153692598076:web:40d0af6482a5d91b2ab839',
+    messagingSenderId: '153692598076',
+    projectId: 'econet-store',
+    authDomain: 'econet-store.firebaseapp.com',
+    storageBucket: 'econet-store.appspot.com',
+    measurementId: 'G-SLWPB4RCP4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC6x8qxKOs5rePB6L9uxqttH3Z6GjjtQ-0',
-    appId: '1:722129889560:android:2d6c09ea0c7ffa518cd66d',
-    messagingSenderId: '722129889560',
-    projectId: 'agree-project-92c04',
-    storageBucket: 'agree-project-92c04.appspot.com',
+    apiKey: 'AIzaSyBESlnUgKnMBshdYjh-e1R_5kQubzgYUTc',
+    appId: '1:153692598076:android:26da01b0385e55102ab839',
+    messagingSenderId: '153692598076',
+    projectId: 'econet-store',
+    storageBucket: 'econet-store.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCMG1PnGEpQ0GBbZXkHD7G8tz9yVZldplU',
-    appId: '1:722129889560:ios:1451b628f5863abc8cd66d',
-    messagingSenderId: '722129889560',
-    projectId: 'agree-project-92c04',
-    storageBucket: 'agree-project-92c04.appspot.com',
+    apiKey: 'AIzaSyBzCgXg06Fr4R4DitkBWIEVh_MH4LkQZXM',
+    appId: '1:153692598076:ios:de5446fe29fb3bf12ab839',
+    messagingSenderId: '153692598076',
+    projectId: 'econet-store',
+    storageBucket: 'econet-store.appspot.com',
     iosBundleId: 'com.example.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCMG1PnGEpQ0GBbZXkHD7G8tz9yVZldplU',
-    appId: '1:722129889560:ios:14bb4137a8c9a2568cd66d',
-    messagingSenderId: '722129889560',
-    projectId: 'agree-project-92c04',
-    storageBucket: 'agree-project-92c04.appspot.com',
+    apiKey: 'AIzaSyBzCgXg06Fr4R4DitkBWIEVh_MH4LkQZXM',
+    appId: '1:153692598076:ios:6d2cc401e44ff7ab2ab839',
+    messagingSenderId: '153692598076',
+    projectId: 'econet-store',
+    storageBucket: 'econet-store.appspot.com',
     iosBundleId: 'com.example.app.RunnerTests',
   );
 }

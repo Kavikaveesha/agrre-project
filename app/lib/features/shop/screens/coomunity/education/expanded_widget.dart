@@ -1,16 +1,14 @@
-import 'package:app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExpandedTextWidget extends StatefulWidget {
   final int textLength;
   final String text;
-  final String url;
-  const ExpandedTextWidget(
-      {super.key,
-      required this.text,
-      required this.textLength,
-      required this.url});
+  const ExpandedTextWidget({
+    super.key,
+    required this.text,
+    required this.textLength,
+  });
 
   @override
   State<ExpandedTextWidget> createState() => _ExpandedWidgetState();
@@ -43,19 +41,6 @@ class _ExpandedWidgetState extends State<ExpandedTextWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(flag ? '$firstHalf...' : widget.text),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: InkWell(
-                    onTap: () {
-                      _launchUrl(widget.url);
-                    },
-                    child: Text('Rread Full Article',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: TColors.appPrimaryColor)),
-                  ),
-                ),
                 const SizedBox(
                   height: 5,
                 ),

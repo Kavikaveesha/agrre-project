@@ -18,7 +18,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
   final currentUser = FirebaseAuth.instance.currentUser!;
 
   //  All Users
-  final userCollection = FirebaseFirestore.instance.collection("users");
+  final userCollection = FirebaseFirestore.instance.collection("AppUser");
 
   Future<void> editField(String field) async {
     String newValue = "";
@@ -80,7 +80,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
     return Scaffold(
         body: StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance
-          .collection("users")
+          .collection("AppUser")
           .doc(currentUser.email)
           .snapshots(),
       builder: (context, snapshot) {

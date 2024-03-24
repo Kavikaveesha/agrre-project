@@ -5,7 +5,6 @@ import '../../../../common/custom_shape/containers/gree_color_container.dart';
 import '../../../../common/custom_shape/containers/search_container.dart';
 import '../../../../common/custom_shape/widgets/appbar/app_bar.dart';
 import '../../../../utils/constants/mediaQuery.dart';
-import 'products/new_products/new_products_slider.dart';
 import 'products/top_products/top_products_row.dart';
 import '../test.dart';
 
@@ -57,25 +56,10 @@ class MarketPage extends StatelessWidget {
                   ],
                 )),
 
-            //  This is Latest Product Slider
-            Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                child: Column(
-                  children: [
-                    Text(
-                      'Latest Products',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    SizedBox(
-                      height: mediaQueryheight * .01,
-                    ),
-                    const NewProductsSlider()
-                  ],
-                )),
-
             // This is All Products showing grid
-
+            SizedBox(
+              height: MediaQueryUtils.getHeight(context) * .05,
+            ),
             const AllProductsGrid()
           ],
         ),

@@ -11,8 +11,19 @@ import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/mediaQuery.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key, required this.productIndex});
+  const ProductDetailPage({
+    super.key,
+    required this.productIndex,
+    required this.prductName,
+    required this.productdec,
+    required this.price,
+    required this.imageUrl,
+  });
   final String productIndex;
+  final String prductName;
+  final String productdec;
+  final double price;
+  final String imageUrl;
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -34,7 +45,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       final cartData = await cartRef.get();
       if (cartData.exists) {
         await cartRef.update({
-          'items': FieldValue.arrayUnion([
+          'cartItems': FieldValue.arrayUnion([
             {
               'productId': widget.productIndex,
               'quantity': itemCount,
@@ -44,7 +55,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       } else {
         // If cart doesn't exist, create a new one with the item
         await cartRef.set({
-          'items': [
+          'cartItems': [
             {
               'productId': widget.productIndex,
               'quantity': itemCount,
@@ -63,10 +74,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       SnackbarHelper.showSnackbar(
         title: 'Error',
         message: e.toString(),
-        backgroundColor:Colors.red,
+        backgroundColor: Colors.red,
       );
       // Show error message
     }
+  }
+
+  Future<DocumentSnapshot> getProductData(String productIndex) async {
+    return await FirebaseFirestore.instance
+        .collection('OnlineStores')
+        .doc(productIndex)
+        .get();
   }
 
   @override
@@ -82,6 +100,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       backgroundColor = Colors.black54; // Dark mode background color
     }
     return Scaffold(
+        // backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
@@ -89,239 +108,215 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               },
               icon: const Icon(Icons.arrow_back_ios)),
         ),
-        body: FutureBuilder<DocumentSnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('products')
-                .doc(widget.productIndex)
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
-              if (!snapshot.hasData || snapshot.data == null) {
-                return const Center(
-                  child: Text('Product not found'),
-                );
-              }
-              final productData = snapshot.data!.data() as Map<String, dynamic>;
-              // Access product details from productData
-              final productName = productData['name'];
-              final productPrice = productData['price'];
-              final productDescription = productData['description'];
-              final productCategory = productData['category'];
-              final productImageUrl = productData['image_url'];
-
-              // Now you can display the product details in your UI
-              return SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: backgroundColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Image(
+                  image: NetworkImage(widget.imageUrl),
+                  width: mediaQueryWidth * .5,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                height: mediaQueryheight * .1,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image(
-                      image: NetworkImage(productImageUrl),
-                      width: mediaQueryWidth * .5,
-                      fit: BoxFit.contain,
+                    Text(
+                      widget.prductName,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     SizedBox(
-                      height: mediaQueryheight * .1,
+                      height: mediaQueryheight * .02,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Category:',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        Text(
+                          'productCategory',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          vertical: 10, horizontal: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            productName,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          SizedBox(
-                            height: mediaQueryheight * .02,
-                          ),
                           Row(
                             children: [
-                              Text(
-                                'Category:',
-                                style: Theme.of(context).textTheme.bodySmall,
+                              Container(
+                                  width: mediaQueryWidth * .08,
+                                  height: mediaQueryWidth * .08,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: backgroundColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (itemCount > 1) {
+                                            itemCount--;
+                                          }
+                                        });
+                                      },
+                                      child: const Text(
+                                        '-',
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                      ))),
+                              SizedBox(
+                                width: mediaQueryWidth * .02,
                               ),
-                              Text(
-                                productCategory,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                              Container(
+                                  width: mediaQueryWidth * .08,
+                                  height: mediaQueryWidth * .08,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: backgroundColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        itemCount.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ))),
+                              SizedBox(
+                                width: mediaQueryWidth * .02,
                               ),
+                              Container(
+                                  width: mediaQueryWidth * .08,
+                                  height: mediaQueryWidth * .08,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: backgroundColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.topCenter,
+                                  child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          itemCount++;
+                                        });
+                                      },
+                                      child: const Text(
+                                        '+',
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                      ))),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                        width: mediaQueryWidth * .08,
-                                        height: mediaQueryWidth * .08,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: backgroundColor,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 4,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                if (itemCount > 1) {
-                                                  itemCount--;
-                                                }
-                                              });
-                                            },
-                                            child: const Text(
-                                              '-',
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
-                                            ))),
-                                    SizedBox(
-                                      width: mediaQueryWidth * .02,
-                                    ),
-                                    Container(
-                                        width: mediaQueryWidth * .08,
-                                        height: mediaQueryWidth * .08,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: backgroundColor,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 4,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: InkWell(
-                                            onTap: () {},
-                                            child: Text(
-                                              itemCount.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ))),
-                                    SizedBox(
-                                      width: mediaQueryWidth * .02,
-                                    ),
-                                    Container(
-                                        width: mediaQueryWidth * .08,
-                                        height: mediaQueryWidth * .08,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: backgroundColor,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 4,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        alignment: Alignment.topCenter,
-                                        child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                itemCount++;
-                                              });
-                                            },
-                                            child: const Text(
-                                              '+',
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
-                                            ))),
-                                  ],
-                                ),
-                                Text(
-                                  'Rs ${itemCount * productPrice}',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Product Description',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall!
-                                    .copyWith(color: Colors.black54),
-                              ),
-                              ProductDetailExpandedTextWidget(
-                                text: '$productDescription',
-                                textLength: 200,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 2, vertical: 10),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: OutlinedButton(
-                                        onPressed: () {},
-                                        child: const Text(
-                                          'Buy Now',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: addToCart,
-                                        child: const Text(
-                                          'Add to Cart',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                          Text(
+                            'Rs ${itemCount * widget.price}',
+                            style: Theme.of(context).textTheme.headlineSmall,
                           )
                         ],
                       ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Product Description',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: Colors.black54),
+                        ),
+                        ProductDetailExpandedTextWidget(
+                          text: widget.productdec,
+                          textLength: 200,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 2, vertical: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'Buy Now',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: addToCart,
+                                  child: const Text(
+                                    'Add to Cart',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),
-              );
-            }));
+              )
+            ],
+          ),
+        ));
   }
 }

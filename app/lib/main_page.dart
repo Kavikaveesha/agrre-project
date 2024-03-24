@@ -10,17 +10,21 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<bool>(
-        future:
-            _checkFirstTimeLogin(), // Check if it's the first time the user logs in
+      body: FutureBuilder<LoginStatus>(
+        future: _checkLoginStatus(), // Check user login status
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashScreen(); // Show splash screen while checking login status
           } else {
-            if (snapshot.data == true) {
-              return LogIn(); // Navigate to login screen if it's the first time login
-            } else {
-              return const NavigationMenu(); // Navigate to home screen if not first time login
+            switch (snapshot.data) {
+              case LoginStatus.newUser:
+                return const SplashScreen(); // Show splash screen for new users
+              case LoginStatus.loggedIn:
+                return const NavigationMenu(); // Show home screen for logged-in users
+              case LoginStatus.loggedOut:
+                return LogIn(); // Show login screen for logged-out users
+              default:
+                return const SplashScreen(); // Show splash screen for any other case
             }
           }
         },
@@ -28,10 +32,25 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  // Function to check if it's the first time the user logs in
-  Future<bool> _checkFirstTimeLogin() async {
+  // Function to check user login status
+  Future<LoginStatus> _checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('firstTimeLogin') ??
-        true; // Default to true if the flag doesn't exist
+    bool? isFirstTimeLogin = prefs.getBool('firstTimeLogin');
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+    if (isFirstTimeLogin == null || isFirstTimeLogin) {
+      return LoginStatus.newUser; // User is new to the app
+    } else if (isLoggedIn != null && isLoggedIn) {
+      return LoginStatus.loggedIn; // User is logged in
+    } else {
+      return LoginStatus.loggedOut; // User is logged out
+    }
   }
+}
+
+// Enum to represent different login statuses
+enum LoginStatus {
+  newUser, // User is new to the app
+  loggedIn, // User is logged in
+  loggedOut, // User is logged out
 }

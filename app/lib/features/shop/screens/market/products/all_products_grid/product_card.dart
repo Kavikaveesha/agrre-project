@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../product_detail_page/product_detail_page.dart';
-
 class ProductCard extends StatelessWidget {
-  const ProductCard(
-      {super.key,
-      required this.productName,
-      required this.category,
-      required this.price,
-      required this.imageUrl, required this.index,
-      });
+  const ProductCard({
+    super.key,
+    required this.productName,
+    required this.price,
+    required this.imageUrl,
+    required this.index,
+    required this.onTap, required this.productDec,
+  });
   final String productName;
-  final String category;
   final String index;
   final double price;
   final String imageUrl;
+  final VoidCallback onTap;
+  final String productDec;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,14 @@ class ProductCard extends StatelessWidget {
             color: backgroundColor,
             border: Border.all(color: const Color.fromARGB(255, 86, 86, 86)),
           ),
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Center(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Text(
                     productName,
                     style: Theme.of(context).textTheme.headlineSmall,
@@ -50,33 +53,57 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Image.network(
-                  imageUrl,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      'Category:',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    Image.network(
+                      imageUrl,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
-                    Text(
-                      category,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Category:',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Text(
+                              'category',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Rs${price}',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 10),
+                          child: SizedBox(
+                            width: mediaQueryWidth * 0.4,
+                            height: mediaQueryHeight * 0.07,
+                            child: Container(
+                              child: ElevatedButton(
+                                onPressed: onTap,
+                                child: const Text('Buy Now'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    'Rs${price}',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
                 ),
               ],
             ),
@@ -84,30 +111,6 @@ class ProductCard extends StatelessWidget {
         ),
         const SizedBox(
           height: 5,
-        ),
-        SizedBox(
-          width: mediaQueryWidth * 0.5,
-          height: mediaQueryHeight * 0.07,
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: ElevatedButton(
-              onPressed: () {
-                Get.to(() => ProductDetailPage(
-                      productIndex: index,
-                    ));
-              },
-              child: const Text('Buy Now'),
-            ),
-          ),
         ),
       ],
     );

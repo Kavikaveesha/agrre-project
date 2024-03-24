@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
 
   //  All Users
-  final userCollection = FirebaseFirestore.instance.collection("users");
+  final userCollection = FirebaseFirestore.instance.collection("AppUser");
 
   Future<void> uploadProfileImage(File imgFile) async {
     try {
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
 
       // Update Firestore database
-      final userCollection = FirebaseFirestore.instance.collection('users');
+      final userCollection = FirebaseFirestore.instance.collection('AppUser');
       final userDoc = await userCollection.doc(currentUser.email).get();
       if (!userDoc.exists) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
-            .collection("users")
+            .collection("AppUser")
             .doc(currentUser.email)
             .snapshots(),
         builder: (context, snapshot) {

@@ -89,7 +89,7 @@ class SignUpController extends GetxController {
     String address,
     String? imgUrl,
   ) async {
-    await FirebaseFirestore.instance.collection('users').doc(email).set({
+    await FirebaseFirestore.instance.collection('AppUser').doc(email).set({
       'first_name': firstName,
       'last_name': lastName,
       'mobile': mobile,
